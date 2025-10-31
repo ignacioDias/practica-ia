@@ -1,0 +1,83 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+#*
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+.env/
+ENV/
+.ENV/
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+lib/
+lib64/
+include/
+bin/
+share/
+pyvenv.cfg
+
+# Archivos de configuración locales
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Archivos de compilación y temporales
+build/
+dist/
+*.egg
+*.manifest
+*.spec
+
+# Configuración de herramientas
+.ipynb_checkpoints
+.pytest_cache/
+.tox/
+.coverage
+coverage.xml
+*.cover
+.cache/
+mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/
+
+# === Git / GitHub ===
+# Ignorar todo lo que sea local, no remoto
+*.orig
+*.swp
+*.swo
+*.bak
+*~
+
+# Logs y resultados
+*.log
+debug.log
+error.log
+
+# Archivos del sistema / IDEs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.settings/
+*.code-workspace
+
+# Archivos de GitHub Actions (mantener los yaml del flujo de trabajo)
+!.github/workflows/*.yml
+.github/
+!/.github/workflows/
+
+# === Otros opcionales ===
+# Jupyter
+*.ipynb_checkpoints
+
