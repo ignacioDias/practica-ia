@@ -1,0 +1,30 @@
+Informe Comparativo: Clasificación del Dataset Iris
+
+Modelos evaluados:
+- MLP (Perceptrón Multicapa) - SVM (Máquina de Vectores de Soporte) -
+Árbol de Decisión
+
+Resultados obtenidos:
+
+  Modelo                                 Exactitud
+  -------------------------------------- -----------
+  SVM (Máquina de Vectores de Soporte)   0.9333
+  MLP (Red Neuronal)                     0.9111
+  Árbol de Decisión                      0.9111
+
+Análisis comparativo:
+Los tres modelos presentan un desempeño alto en la clasificación del
+dataset Iris, superando el 90% de exactitud.
+El modelo SVM obtuvo la mayor exactitud (93.33%), lo cual confirma su
+eficacia para problemas de clasificación multiclase con datos bien
+distribuidos.
+El MLP y el Árbol de Decisión obtuvieron resultados similares (91.11%),
+mostrando también un buen rendimiento pero con una ligera desventaja
+frente al SVM.
+
+Conclusión:
+El modelo SVM sigue siendo el más preciso en este conjunto de datos,
+mientras que el MLP logra un rendimiento comparable con una arquitectura
+simple.
+El Árbol de Decisión es más interpretable y rápido de entrenar, aunque
+tiende a sobreajustarse ligeramente en algunos casos.
