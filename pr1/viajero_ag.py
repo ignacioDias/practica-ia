@@ -1,14 +1,23 @@
+# ---
+# 📘 Viajero_AG.py — Implementación de un Algoritmo Genético Multiobjetivo
+# para el problema del viajero, optimizando simultáneamente costo y tiempo.
+# ---
+
 import random
 from itertools import permutations
 from graph import Graph
 
-NODES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-POP_SIZE = 50
-ITERATIONS = 40
-CXPB = 0.8
-MUTPB = 0.1
+# --- Parámetros del Algoritmo Genético ---
+NODES = ['A', 'B', 'C', 'D', 'E', 'F', 'G']  # Nodos (ciudades)
+POP_SIZE = 50        # Tamaño de la población
+ITERATIONS = 40      # Número de generaciones
+CXPB = 0.8           # Probabilidad de cruce (crossover)
+MUTPB = 0.1          # Probabilidad de mutación
 
-# === Grafo con costos y tiempos ===
+# ---
+# 🔹 Creación del grafo con costos y tiempos
+# Cada arista tiene un costo y un tiempo asociado.
+# ---
 g = Graph(NODES)
 edges = [
     ('A', 'B', 10, 20),
@@ -25,23 +34,35 @@ edges = [
 for (a, b, c, t) in edges:
     g.add_path(a, b, c, t)
 
+# Visualizamos el grafo (usando networkx)
 g.show()
 
+# ---
+# 🧬 Funciones del Algoritmo Genético
+# ---
+
 def generate_individual():
+    """Genera un individuo aleatorio (ruta) como una permutación de los nodos."""
     return random.sample(NODES, len(NODES))
 
 def generate_population():
+    """Crea una población inicial de individuos."""
     return [generate_individual() for _ in range(POP_SIZE)]
 
 def fitness(individual):
+    """Calcula el fitness de un individuo (costo total, tiempo total)."""
     cost, time = g.calculate_cost_and_time(individual)
     return (cost, time)
 
 def dominates(f1, f2):
-    """Devuelve True si f1 domina a f2 (mejor en ambos objetivos)."""
+    """
+    Devuelve True si f1 domina a f2.
+    Es decir, f1 es mejor o igual en ambos objetivos, y estrictamente mejor en al menos uno.
+    """
     return (f1[0] <= f2[0] and f1[1] <= f2[1]) and (f1 != f2)
 
 def pareto_front(population):
+    """Calcula el frente de Pareto de una población dada."""
     front = []
     for i, ind1 in enumerate(population):
         dominated = False
@@ -53,7 +74,12 @@ def pareto_front(population):
             front.append(ind1)
     return front
 
+# ---
+# 🔄 Operadores Genéticos: Crossover y Mutación
+# ---
+
 def crossover(p1, p2):
+    """Cruce por segmento: intercambia una subsecuencia entre dos padres."""
     n = len(p1)
     i, j = sorted(random.sample(range(n), 2))
     child1 = [None] * n
@@ -66,12 +92,18 @@ def crossover(p1, p2):
     return child1
 
 def mutate(ind):
+    """Intercambia dos genes (ciudades) con una probabilidad MUTPB."""
     if random.random() < MUTPB:
         i, j = random.sample(range(len(ind)), 2)
         ind[i], ind[j] = ind[j], ind[i]
     return ind
 
+# ---
+# 🎯 Selección de individuos (torneo)
+# ---
+
 def selection(pop):
+    """Selecciona individuos por torneo: el mejor entre k candidatos."""
     k = 3
     selected = []
     for _ in range(POP_SIZE):
@@ -80,11 +112,18 @@ def selection(pop):
         selected.append(best)
     return selected
 
+# ---
+# 🧩 Algoritmo principal MOGA (Multi-Objective Genetic Algorithm)
+# ---
+
 def moga():
+    """Ejecución del algoritmo genético multiobjetivo."""
     population = generate_population()
     for gen in range(ITERATIONS):
         pareto = pareto_front(population)
         print(f"Generación {gen} — Frente de Pareto: {len(pareto)} individuos")
+
+        # Nueva generación
         next_gen = []
         selected = selection(population)
         for i in range(0, POP_SIZE, 2):
@@ -95,9 +134,14 @@ def moga():
                 c1, c2 = selected[i], selected[i + 1]
             next_gen.extend([mutate(c1), mutate(c2)])
         population = next_gen
+
     return pareto_front(population)
 
+# ---
+# 🚀 Ejecución del experimento
+# ---
 pareto = moga()
+
 print("\n🌈 Frente de Pareto final:")
 for ind in pareto:
     cost, time = fitness(ind)
